@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useColorScheme } from "react-native";
+import Navigation from "./navigation";
+import useCachedResources from "./hooks/useCachedResources";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const isLoaded = useCachedResources();
+  const colorScheme = useColorScheme();
+
+  if (isLoaded) {
+    // console.log(colorScheme);
+    return (
+      <SafeAreaProvider>
+        {/* if want to make light/dark theme app
+        <Navigation colorScheme={colorScheme} />
+        <StatusBar style="auto" /> */}
+        {/* make it a fixed light theme */}
+        <Navigation colorScheme={"light"} />
+        <StatusBar style="dark" />
+      </SafeAreaProvider>
+    );
+  } else {
+    return null;
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// EAS Build is a hosted service for building app binaries with native code
